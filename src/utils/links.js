@@ -19,8 +19,8 @@ class Links {
     return Object.values(this.links).filter(l => l.creator === user).slice(10 * page, 10 * page + 10);
   }
 
-  create({ long, creator, readable }) {
-    const short = random(Object.keys(this.links), readable);
+  create({ long, creator, readable }, filter = []) {
+    const short = random(Object.keys(this.links).concat(filter), readable);
     this.db.run('INSERT INTO links (uses, long, short, creator, created) VALUES (?, ?, ?, ?, ?)', 0, long, short, creator, new Date());
     this.links[short] = { uses: 0, long, short, creator, created: new Date() };
     return this.links[short];

@@ -8,6 +8,7 @@ const exphbs  = require('express-handlebars');
 
 // App
 const app = express();
+module.exports = app;
 app.use(parser());
 
 // Render
