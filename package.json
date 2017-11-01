@@ -1,0 +1,14 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "Minimal URL Shortener",
+  "private": true,
+  "main": "app.js",
+  "dependencies": {
+    "cookie-parser": "*",
+    "express": "*",
+    "express-handlebars": "*",
+    "qr-image": "^3.2.0",
+    "sqlite": "*"
+  }
+}

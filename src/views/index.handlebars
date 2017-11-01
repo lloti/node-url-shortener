@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <script> document.documentElement.removeAttribute('class') </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{name}}</title>
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/icons.css">
+</head>
+<body>
+  <div class="container">
+    <h1>{{name}}</h1>
+    <h5>A minimal link shortener</h5>
+    <noscript>
+      <form action="/new" method="GET">
+        <input type="url" name="url" placeholder="URL">
+        <br>
+        <input type="checkbox" name="readable"><label for="readable">Human Readable?</label>
+        <br>
+        <input type="hidden" name="redirect" value="true">
+        <input type="submit">
+      </form>
+    </noscript>
+    <div class="submit">
+      <div class="bar">
+        <input type="url" id="url">
+        <span class="icon-link" id="submit"></span>
+      </div>
+      <br>
+      <br>
+      <input type="checkbox" id="readable" value="off"><span>Human readable</span>
+    </div>
+    <h3>Your Links</h3>
+    <div class="links">
+      {{#each user}}
+      <div>
+        <span>{{../protocol}}://{{../host}}/{{this.short}}</span>
+        <div class="right">
+          <a href="/qr/{{this.short}}" target="_blank"><span class="icon-qr" title="'Display as QR code'"></span></a>
+          <span class="icon-clipboard" title="Copy link to clipboard"></span>
+          <span class="icon-info" title="Get info and stats"></span>
+          <a href="/big/{{this.short}}" target="_blank"><span class="icon-expand" title="Showcase link"></span></a>
+          <a href="/{{this.short}}" target="_blank"><span class="icon-open" title="Open link"></span></a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
