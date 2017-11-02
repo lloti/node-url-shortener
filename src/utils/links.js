@@ -16,7 +16,7 @@ class Links {
   }
 
   getUser(user, page = 0) {
-    return Object.values(this.links).filter(l => l.creator === user).slice(10 * page, 10 * page + 10);
+    return Object.values(this.links).filter(l => l.creator === user).sort((a, b) => a.created < b.created).slice(10 * page, 10 * page + 10);
   }
 
   create({ long, creator, readable }, filter = []) {

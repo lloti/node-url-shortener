@@ -24,7 +24,7 @@ function a(href, type) {
 function icon(type) {
 	var el = document.createElement('span');
 	el.setAttribute('class', 'icon-' + type);
-	switch(type) {
+	switch (type) {
 		case 'qr':
 			el.title = 'Display as QR code';
 			break;
@@ -80,17 +80,23 @@ document.addEventListener('DOMContentLoaded', function() {
 	var readable = document.getElementById('readable');
 	var links = document.getElementsByClassName('links')[0];
 	function create() {
-		get('/new?url=' + encodeURIComponent(url.value) + '&readable=' + readable.value, function(err, res) {
+		var value = url.value;
+		url.value = '';
+		get('/new?url=' + encodeURIComponent(value) + '&readable=' + readable.value, function(err, res) {
 			var json = JSON.parse(res);
 			console.log(json);
 			var outer = document.createElement('div');
-			outer.appendChild(document.createTextNode(location.host + '/' + json.short));
+			var span = document.createElement('span');
+			span.appendChild(document.createTextNode(location.protocol + '//' + location.host + '/' + json.short));
+			outer.appendChild(span);
 			var inner = document.createElement('div');
+			inner.setAttribute('class', 'right');
 			inner.appendChild(a('/qr/' + json.short, 'qr'));
-			inner.appendChild(icon('qr'));
+			inner.appendChild(icon('clipboard'));
 			inner.appendChild(icon('info'));
 			inner.appendChild(a('/big/' + json.short, 'expand'));
 			inner.appendChild(a('/' + json.short, 'open'));
+			outer.appendChild(inner);
 			if (links.length === 10) { links.removeChild(links.lastChild); }
 			links.insertBefore(outer, links.firstChild);
 			reload();

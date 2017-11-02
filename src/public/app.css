@@ -90,10 +90,15 @@ h3 {
   display: inline-block;
   text-align: right;
   float: right;
+  font-size: 0;
   cursor: pointer;
 }
 
-.links > div > div.right > a {
+.links > div > div.right > a,
+.links > div > div.right > span {
+  vertical-align: middle;
+  padding: 0 1px;
+  font-size: 16px;
   color: white;
   text-decoration: none;
 }
