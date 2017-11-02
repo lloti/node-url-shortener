@@ -1,6 +1,6 @@
 // Random words
 const words = require('../data/words.json');
-const randomWord = () => words[Math.floor(Math.random() * words.length)];
+const randomWord = () => `${words.adjectives[Math.floor(Math.random() * words.adjectives.length)]}${words.nouns[Math.floor(Math.random() * words.nouns.length)]}`;
 // Random chars
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 const randomChar = () => chars[Math.floor(Math.random() * chars.length)];
@@ -15,10 +15,10 @@ const cfg = require('../../config');
 module.exports = (filter = [], readable = false, length = cfg.length) => {
   let str;
   (retry => {
-    str = '';
     if (readable) {
-      for (let i = 0; i !== 3; i++) str += randomWord();
+      str = randomWord();
     } else {
+      str = '';
       for (let i = 0; i !== length; i++) str += randomChar();
     }
     if (filter.includes(str)) retry();

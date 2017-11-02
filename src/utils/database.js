@@ -24,7 +24,7 @@ const table = arr => {
 open(data).then(db => {
   links.register(db).then(() => {
     console.log(`\n    ${links.users.length} User${links.users.length === 1 ? '' : 's'}`);
-    console.log(table([['Uses', 'Link', 'Long']].concat(Object.values(links.links).map(link => [link.uses, link.short, link.long]))));
+    console.log(table([['Uses', 'Link', 'Created', 'Long']].concat(Object.values(links.links).sort((a, b) => a.created - b.created).map(link => [link.uses, link.short, link.created, link.long]))));
   });
 });
 

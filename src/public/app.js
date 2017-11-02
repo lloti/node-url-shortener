@@ -66,23 +66,21 @@ function setClipboard(text) {
 }
 
 function reload() {
-	// onclick('qr')
 	onclick('clipboard', function() {
-		setClipboard(location.protocol + '//' + this.parentNode.parentNode.children[0].innerText);
+		setClipboard(this.parentNode.parentNode.children[0].innerText);
 		// No idea why firstChild won't work
 	});
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-	reload();
 	var url = document.getElementById('url');
 	var submit = document.getElementById('submit');
 	var readable = document.getElementById('readable');
 	var links = document.getElementsByClassName('links')[0];
+	while (links.children.length >= 10) { links.removeChild(links.lastChild); }
+	readable.checked = false;
 	function create() {
 		var value = url.value;
 		url.value = '';
 		get('/new?url=' + encodeURIComponent(value) + '&readable=' + readable.value, function(err, res) {
+			if (err) return alert('Error: ' + err);
 			var json = JSON.parse(res);
 			console.log(json);
 			var outer = document.createElement('div');
@@ -97,11 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			inner.appendChild(a('/big/' + json.short, 'expand'));
 			inner.appendChild(a('/' + json.short, 'open'));
 			outer.appendChild(inner);
-			if (links.length === 10) { links.removeChild(links.lastChild); }
+			if (links.children.length === 0) { document.getElementsByTagName('h3')[0].innerText = 'Your Links'; }
 			links.insertBefore(outer, links.firstChild);
 			reload();
 		});
 	}
 	url.onkeydown = function(key) {	if (key.keyCode === 13) create(); };
 	submit.onclick = function() { create(); };
-});
+}
+
+document.addEventListener('DOMContentLoaded', reload);

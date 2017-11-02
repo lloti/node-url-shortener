@@ -31,9 +31,13 @@
       </div>
       <br>
       <br>
-      <input type="checkbox" id="readable" value="off"><span>Human readable</span>
+      <input type="checkbox" id="readable" checked><span>Human readable</span>
     </div>
+    {{#if user.length}}
     <h3>Your Links</h3>
+    {{else}}
+    <h3>You Have No Links Yet :(</h3>
+    {{/if}}
     <div class="links">
       {{#each user}}
       <div>

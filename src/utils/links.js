@@ -16,13 +16,17 @@ class Links {
   }
 
   getUser(user, page = 0) {
-    return Object.values(this.links).filter(l => l.creator === user).sort((a, b) => a.created < b.created).slice(10 * page, 10 * page + 10);
+    return Object.values(this.links)
+      .filter(l => l.creator === user)
+      .sort((a, b) => a.created - b.created)
+      .reverse()
+      .slice(10 * page, 10 * page + 10);
   }
 
   create({ long, creator, readable }, filter = []) {
     const short = random(Object.keys(this.links).concat(filter), readable);
-    this.db.run('INSERT INTO links (uses, long, short, creator, created) VALUES (?, ?, ?, ?, ?)', 0, long, short, creator, new Date());
-    this.links[short] = { uses: 0, long, short, creator, created: new Date() };
+    this.db.run('INSERT INTO links (uses, long, short, creator, created) VALUES (?, ?, ?, ?, ?)', 0, long, short, creator, Date.now().toString());
+    this.links[short] = { uses: 0, long, short, creator, created: Date.now().toString() };
     return this.links[short];
   }
 
@@ -33,6 +37,7 @@ class Links {
 
   async visit(link) {
     await this.db.run('UPDATE links SET uses = uses + 1 WHERE short = (?)', link);
+    this.links[link].uses++;
     return true;
   }
 

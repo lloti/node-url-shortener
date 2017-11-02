@@ -24,14 +24,23 @@ const route = file => require(`./src/routes/${file}`);
 // Load DB
 require('./src/utils/database');
 
-// Routes
+/* Route */
+
+// Shortened link
 app.get('/random', route('random'));
+app.get('/:link', route('link.js'));
+
+// API/AJAX
 app.get('/api/:link', route('api'));
+app.get('/links', route('links'));
 app.get('/new', route('new'));
+
+// Visible
 app.get('/big/:link', route('big'));
 app.get('/qr/:link', route('qr'));
 app.get('/', route('shortener'));
-app.use('/:link', route('link.js'));
+
+/* Route */
 
 // Static Files
 app.use(express.static(`${__dirname}/src/public`));
